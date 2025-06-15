@@ -1,0 +1,302 @@
+body {
+   margin: 0;
+   /*padding: 0;*/
+  height: 100vh;
+  width: 100vw;
+  overflow-y: hidden;
+  position: relative;
+ /* background-color: hsl(88, 50%, 53%); /* vert clair (de secours si image ne charge pas) */
+  background-image: url("img/grass.png"); /* remplace par le bon chemin */
+  background-size: 100px 100px; /* taille des tuiles (ajuste selon rendu voulu) */
+  background-repeat: repeat;    /* répète en mosaïque */
+  background-position: top left;
+}
+
+
+  #timer-container {
+    transform: scale(0.8);
+  }
+
+  #hud {
+    transform: scale(0.8) translateX(-50%);
+  }
+
+.river {
+  position: absolute;
+  width: 100%;
+  height: 200px; /* tu peux ajuster la hauteur ici */
+  background-color: #2196f3; /* bleu rivière */
+  top: -250px; /* position hors écran au début */
+  left: 0;
+  transition: top 0.3s ease-out;
+  overflow: hidden; /* Très important pour éviter que les bûches dépassent visuellement */
+}
+
+
+.chicken {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+ background-image: url("img/chicken_stop_left.png"); /* image statique */
+ background-size:contain;
+ background-repeat:no-repeat;
+ transition: top 0.3s ease-out, left 0.3s ease-out;
+   z-index: 1;
+    border: 2px solid yellow;
+}
+
+.bridge {
+  position: absolute;
+  top: 126px; /* adapte selon ta rivière */
+  left: 385px; /* adapte selon ton image */
+  width: 150px;
+  height: 230px;
+  background-image: url("img/bridge.png");
+  background-size:contain;
+ background-repeat:no-repeat;
+  z-index: 2; /* au-dessus de la rivière et des bûches */
+}
+
+.bush {
+  position: absolute;
+  top: 10px; /* distance depuis le haut */
+  width: 50px;
+  height: 50px;
+  background-image: url("img/bush.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent; /* pour afficher les carrés rouges */
+  z-index: 0;
+}
+
+.lily-pad {
+  position: absolute;
+  top: 150px; /* Ajuste selon ton niveau d'eau */
+  width: 30px;
+  height: 30px;
+  background-image: url("img/nenuphar.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color:transparent;
+  z-index: 0; /* au-dessus de la rivière */
+}
+
+.path {
+  position: absolute;
+  width: 100px;
+background-color:grey;
+ background-image: url("img/path.png"); /* adapte selon ton chemin */
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 0;
+  
+}
+
+.path-top {
+  height: 100%; /* adapte selon le pont */
+  bottom: 455px;
+  left:395px;
+
+}
+
+/* Partie en-dessous de la rivière */
+.path-bottom {
+  height: 100%; /* adapte à la hauteur désirée */
+  top: 350px;
+  left:395px
+}
+
+.car {
+  position: absolute;
+  width: 60px;
+  height: 90px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 3;
+  pointer-events: none; /* pour éviter tout bug de clic*/
+}
+
+.green-car {
+  background-image: url("img/green_car.png");
+  left: 435px;
+}
+
+.red-car {
+  background-image: url("img/red_car.png");
+  left: 395px;
+}
+
+.blue-car {
+  background-image: url("img/blue_car.png"); /* vérifie le bon nom du fichier */
+  left: 435px; /* position sur la route */
+  top: 200px;
+}
+
+.yellow-car {
+  background-image: url("img/yellow_car.png");
+  left: 395px;
+  top: -400px;
+}
+
+.chicken-coop {
+  position: absolute;
+  width: 130px; /* ajuste selon le rendu */
+  height: 130px;
+  top: 10px;
+  left:1000px;
+  background-image: url("img/chicken_coop.png"); /* assure-toi que le fichier est bien à cet emplacement */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#hud {
+ position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 217, 0, 0.527); /* totalement transparent */
+  padding: 5px 15px;
+  display: flex;
+  gap: 30px; /* espace entre 1-UP et HI-SCORE */
+  align-items: center;
+  z-index: 1000;
+}
+#hud * {
+  pointer-events: auto;
+}
+
+#score-board {
+  display: flex;
+  gap: 6px; /* espace entre le label et le score */
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 12px;
+  color: white;
+}
+
+.label {
+  font-weight: bold;
+  color: white;
+}
+
+#score,
+#high-score {
+  color: rgb(14, 1, 206);
+}
+
+#timer-container {
+ position: fixed;
+  bottom: 0;
+  left: 50%; /*centre horizontalement comme #hud */
+  transform: translateX(-50%); /*décalage pour un vrai centrage */
+  width: 480px;
+  height: 30px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  z-index: 999;
+}
+
+#time-label {
+  color: yellow;
+  font-weight: bold;
+  padding-left: 10px;
+  font-size: 20px;
+}
+
+.game-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+
+.wire {
+  position: absolute;
+  background-color: transparent;
+  z-index: 1;
+}
+
+/* Trait horizontal (du poulailler vers la gauche) */
+.wire-horizontal {
+  top: 355px; /* hauteur à ajuster selon position du poulailler */
+  left: 500px; /* position de départ */
+  width: 430px;
+  height: 10px;
+   background-image:url("img/electric_wire_horizontal.png");
+   background-size:contain;
+}
+
+/* Trait vertical (depuis le haut vers ce fil horizontal) */
+.wire-vertical-bottom {
+  top: 350px;
+  left: 930px; /* même X que le bout droit du horizontal */
+  width: 10px;
+  height: 100%;/*pour que l'on puisse pas le contourner depuis le bas invisible de l'interface*/
+  background-image:url("img/electric_wire_vertical.png");
+   background-size:contain;
+}
+.wire-vertical-top {
+  height: 100%; /* adapte selon le pont */
+  bottom: 460px;
+  left: 375px; /* même X que le bout droit du horizontal */
+  width: 10px;
+  background-image:url("img/electric_wire_vertical.png");
+   background-size:contain;
+}
+
+#timer-container {
+  position: fixed;
+  bottom: 0;
+  left: 50%; /*centre horizontalement*/
+  transform: translateX(-50%);
+  width: fit-content;/*s'adapte automatiquement au nb de son contenu, sans trop d'espace vide askip'*/
+  height: 30px;
+  background-color: rgba(255, 217, 0, 0.527);
+  display: flex;
+  justify-content: center; /*centre les pilons de vie à l'intérieur*/
+  align-items: center;
+  padding: 0 10px;
+  z-index: 999;
+}
+
+#drumstick-timer {
+  display: flex;
+  gap:2px /*espace entre les pilons de vie*/;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.drumstick {
+  height: 24px;
+  aspect-ratio: 1/1; /* carré pour être responsif */
+  background-image: url("img/drumstick.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.bone {
+  height: 24px;
+  aspect-ratio: 1/1;
+  background-image: url("img/os.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.trap {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-image: url("img/trap.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 3;
+}

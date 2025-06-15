@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIN</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      overflow: hidden;
+    }
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1;
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: #fff;
+      font-family: 'Press Start 2P', monospace;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .glitch {
+      position: relative;
+      font-size: 4rem;
+      color: #f00;
+      animation: glitch 1s infinite;
+    }
+
+   .glitch::before, .glitch::after {
+  content: 'WIN!';
+  position: absolute;
+  left: 0;
+}
+    .glitch::before {
+  animation: glitchTop 1s infinite;
+  clip: rect(0, 900px, 0, 0);
+    color: #0ff;
+    left : 70px;
+    }
+   .glitch::after {
+  animation: glitchBottom 1s infinite;
+  clip: rect(0, 900px, 0, 0);
+  color: #0f0;
+  left : 70px;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 2px 2px #f00; }
+      20% { text-shadow: -2px -2px #0ff; }
+      40% { text-shadow: 2px -2px #ff0; }
+      60% { text-shadow: -2px 2px #0ff; }
+      80% { text-shadow: 2px 2px #ff0; }
+      100% { text-shadow: -2px -2px #f00; }
+    }
+    @keyframes glitchTop {
+      0% { clip: rect(0, 900px, 10px, 0); transform: translate(-2px, -2px); }
+      50% { clip: rect(0, 900px, 5px, 0); transform: translate(2px, 2px); }
+      100% { clip: rect(0, 900px, 15px, 0); transform: translate(-2px, -2px); }
+    }
+    @keyframes glitchBottom {
+      0% { clip: rect(15px, 900px, 30px, 0); transform: translate(2px, 2px); }
+      50% { clip: rect(5px, 900px, 25px, 0); transform: translate(-2px, -2px); }
+      100% { clip: rect(20px, 900px, 40px, 0); transform: translate(2px, 2px); }
+    }
+    .score {
+      margin-top: 20px;
+      font-size: 2rem;
+      opacity: 0;
+      animation: fadeInScore 1s 1s forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeInScore {
+      to { opacity: 1; }
+    }
+    .play-button {
+      margin-top: 30px;
+      font-size: 1.5rem;
+      padding: 10px 20px;
+      border: 2px solid #ffffff;
+      background: transparent;
+      color: #ffffff;
+      font-family: 'Press Start 2P', monospace;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeInScore 1s 1.5s forwards;
+    }
+    .play-button:hover {
+      text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div id="final-score"></div>
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="glitch">WIN!</div>
+    <div class="score">Score : <span id="score">0</span></div>
+    <button id="play-button" class="play-button">PLAY</button>
+  </div>
+
+  <script>
+  // Récupère le score sauvegardé
+  const finalScore = parseInt(localStorage.getItem("lastScore")) || 0;
+  const scoreElement = document.getElementById("score");
+
+  // Animation de score qui compte progressivement jusqu'au score final
+  let current = 0;
+  const duration = 1500;
+  const steps = 30;
+  const stepTime = Math.max(20, duration / steps);
+  const increment = Math.ceil(finalScore / steps);
+
+  const counter = setInterval(() => {
+    current += increment;
+    if (current >= finalScore) {
+      current = finalScore;
+      clearInterval(counter);
+    }
+    scoreElement.textContent = current;
+  }, stepTime);
+
+  // Bouton pour rejouer
+  const playBtn = document.getElementById('play-button');
+  playBtn.addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+</script>
+</body>
+</html>
