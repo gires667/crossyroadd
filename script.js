@@ -706,3 +706,14 @@ function startTimerWithDrumsticks() {
 // Launch on load
 updateScore(0); // to display initial score
 startTimerWithDrumsticks();
+
+fetch('http://localhost:8080/api/save-score', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ score: finalScore })
+})
+.then(response => response.json())
+.then(data => console.log('Score enregistré :', data))
+.catch(error => console.error('Erreur lors de l\'enregistrement du score :', error));

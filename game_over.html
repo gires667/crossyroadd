@@ -109,7 +109,7 @@
     <button id="play-button" class="play-button">PLAY</button>
   </div>
 
-  <script>
+ <script>
   // Récupère le score sauvegardé
   const finalScore = parseInt(localStorage.getItem("lastScore")) || 0;
   const scoreElement = document.getElementById("score");
@@ -126,6 +126,26 @@
     if (current >= finalScore) {
       current = finalScore;
       clearInterval(counter);
+
+      // Après animation, envoi du score au backend via fetch POST
+fetch('http://127.0.0.1:5500/api/save-score', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ score: finalScore })
+})
+      .then(response => response.json())
+      .then(data => {
+        if(data.error) {
+          console.error('Erreur API:', data.error);
+        } else {
+          console.log('Score sauvegardé:', data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Erreur réseau:', error);
+      });
     }
     scoreElement.textContent = current;
   }, stepTime);
